@@ -3,27 +3,36 @@ pragma solidity ^0.8.18;
 
 /**
  * @title CarbonOracle
- * @dev Contract for storing carbon credit data from real-world sources
+ * @dev Contract for storing electricity carbon emission data from real-world sources
  */
 contract CarbonOracle {
     address public owner;
     address public pendingOwner;
     
-    struct CarbonData {
-        uint256 value;      // Carbon value in kg
-        uint256 timestamp;  // When the data was updated
-        string source;      // Data source identifier
-        string metadata;    // Additional JSON metadata
+    struct ElectricityData {
+        uint256 carbonKg;      // Carbon emissions in kg
+        uint256 electricityMwh; // Electricity consumption in MWh
+        string country;        // Country code
+        string state;          // State/province code
+        uint256 timestamp;     // When the data was updated
+        string metadata;       // Additional JSON metadata
     }
     
-    CarbonData public latestData;
+    ElectricityData public latestData;
     
     // For aggregation purposes
     mapping(address => bool) public authorizedProviders;
-    mapping(address => CarbonData) public providerData;
+    mapping(address => ElectricityData) public providerData;
     address[] public providers;
     
-    event DataUpdated(uint256 value, uint256 timestamp, string source, string metadata);
+    event DataUpdated(
+        uint256 carbonKg, 
+        uint256 electricityMwh, 
+        string country, 
+        string state, 
+        uint256 timestamp, 
+        string metadata
+    );
     event ProviderAdded(address provider);
     event ProviderRemoved(address provider);
     event OwnershipTransferInitiated(address indexed previousOwner, address indexed newOwner);
@@ -44,48 +53,69 @@ contract CarbonOracle {
     }
     
     /**
-     * @dev Updates carbon data (restricted to authorized providers)
+     * @dev Updates electricity carbon data (restricted to authorized providers)
      */
-    function updateCarbonData(uint256 value, string calldata source, string calldata metadata) external onlyProvider {
-        providerData[msg.sender] = CarbonData({
-            value: value,
+    function updateElectricityData(
+        uint256 carbonKg,
+        uint256 electricityMwh,
+        string calldata country,
+        string calldata state,
+        string calldata metadata
+    ) external onlyProvider {
+        providerData[msg.sender] = ElectricityData({
+            carbonKg: carbonKg,
+            electricityMwh: electricityMwh,
+            country: country,
+            state: state,
             timestamp: block.timestamp,
-            source: source,
             metadata: metadata
         });
         
         // Update the latest aggregated data
         _aggregateData();
         
-        emit DataUpdated(value, block.timestamp, source, metadata);
+        emit DataUpdated(
+            carbonKg, 
+            electricityMwh, 
+            country, 
+            state, 
+            block.timestamp, 
+            metadata
+        );
     }
     
     /**
      * @dev Aggregates data from all providers (simple average in this implementation)
      */
     function _aggregateData() internal {
-        uint256 total = 0;
+        uint256 totalCarbonKg = 0;
+        uint256 totalElectricityMwh = 0;
         uint256 count = 0;
-        string memory primarySource = "";
+        string memory primaryCountry = "";
+        string memory primaryState = "";
         
         for (uint i = 0; i < providers.length; i++) {
             address provider = providers[i];
             if (providerData[provider].timestamp > 0) {
-                total += providerData[provider].value;
+                totalCarbonKg += providerData[provider].carbonKg;
+                totalElectricityMwh += providerData[provider].electricityMwh;
                 count++;
                 
-                // Use the most recent source as the primary source
+                // Use the most recent data as the primary source
                 if (providerData[provider].timestamp > latestData.timestamp) {
-                    primarySource = providerData[provider].source;
+                    primaryCountry = providerData[provider].country;
+                    primaryState = providerData[provider].state;
                 }
             }
         }
         
         if (count > 0) {
-            latestData = CarbonData({
-                value: total / count,
+            latestData = ElectricityData({
+                carbonKg: totalCarbonKg / count,
+                electricityMwh: totalElectricityMwh / count,
+                country: primaryCountry,
+                state: primaryState,
                 timestamp: block.timestamp,
-                source: primarySource,
                 metadata: '{"aggregation":"average"}'
             });
         }
@@ -121,10 +151,32 @@ contract CarbonOracle {
     }
     
     /**
-     * @dev Returns the latest carbon data
+     * @dev Returns the latest electricity carbon data
      */
-    function getLatestData() external view returns (uint256 value, uint256 timestamp, string memory source, string memory metadata) {
-        return (latestData.value, latestData.timestamp, latestData.source, latestData.metadata);
+    function getLatestData() external view returns (
+        uint256 carbonKg, 
+        uint256 electricityMwh, 
+        string memory country, 
+        string memory state, 
+        uint256 timestamp, 
+        string memory metadata
+    ) {
+        return (
+            latestData.carbonKg, 
+            latestData.electricityMwh, 
+            latestData.country, 
+            latestData.state, 
+            latestData.timestamp, 
+            latestData.metadata
+        );
+    }
+    
+    /**
+     * @dev Returns carbon intensity (kg CO2 per MWh)
+     */
+    function getCarbonIntensity() external view returns (uint256) {
+        if (latestData.electricityMwh == 0) return 0;
+        return (latestData.carbonKg * 1000) / latestData.electricityMwh;
     }
     
     /**
