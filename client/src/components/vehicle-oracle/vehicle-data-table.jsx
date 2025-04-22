@@ -57,53 +57,53 @@ const VehicleDataTable = () => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      <table className="min-w-full divide-y divide-gray-700">
+        <thead className="bg-gray-800">
           <tr>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
               Vehicle
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
               Type
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
               Emissions (g/km)
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
               Distance (km)
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
               Last Updated
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-gray-900 divide-y divide-gray-700">
           {vehicles.map((vehicle) => (
             <tr key={vehicle.id}>
               <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm font-medium text-gray-900">
+                <div className="text-sm font-medium text-gray-200">
                   {vehicle.make} {vehicle.model}
                 </div>
-                <div className="text-sm text-gray-500">{vehicle.year}</div>
+                <div className="text-sm text-gray-400">{vehicle.year}</div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                   vehicle.type === 'Electric' 
-                    ? 'bg-green-100 text-green-800' 
+                    ? 'bg-green-900 text-green-200' 
                     : vehicle.type === 'Hybrid'
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-orange-100 text-orange-800'
+                      ? 'bg-blue-900 text-blue-200'
+                      : 'bg-orange-900 text-orange-200'
                 }`}>
                   {vehicle.type}
                 </span>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                 {vehicle.emissions}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                 {vehicle.distance.toLocaleString()}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                 {new Date(vehicle.lastUpdated).toLocaleString()}
               </td>
             </tr>

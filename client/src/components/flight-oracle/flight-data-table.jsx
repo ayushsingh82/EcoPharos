@@ -1,66 +1,74 @@
 import React from 'react';
 
-const FlightDataTable = ({ data }) => {
+const FlightDataTable = ({ data = {} }) => {
+  // Default data if none provided
+  const flightData = Object.keys(data).length > 0 ? data : {
+    carbonKg: 1077,
+    passengers: 180,
+    distanceKm: 2500,
+    legs: [
+      { departureAirport: 'SFO', destinationAirport: 'JFK' }
+    ],
+    timestamp: new Date().toISOString()
+  };
+
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      <table className="min-w-full divide-y divide-gray-700">
+        <thead className="bg-gray-800">
           <tr>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
               Property
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
               Value
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-gray-900 divide-y divide-gray-700">
           <tr>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              Carbon Emissions
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-200">
+              Total Carbon Emissions
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {data.carbonKg} kg CO₂
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+              {flightData.carbonKg} kg
             </td>
           </tr>
           <tr>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-200">
               Passengers
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {data.passengers}
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+              {flightData.passengers}
             </td>
           </tr>
           <tr>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-200">
               Distance
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {Math.round(data.distanceKm)} km
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+              {flightData.distanceKm} km
             </td>
           </tr>
           <tr>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              Flight Route
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-200">
+              Route
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {data.legs.map(leg => `${leg.departureAirport} → ${leg.destinationAirport}`).join(', ')}
-            </td>
-          </tr>
-          <tr>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              Carbon Per Passenger
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {Math.round(data.carbonKg / data.passengers)} kg CO₂
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+              {flightData.legs.map((leg, index) => (
+                <span key={index}>
+                  {leg.departureAirport} → {leg.destinationAirport}
+                  {index < flightData.legs.length - 1 ? ', ' : ''}
+                </span>
+              ))}
             </td>
           </tr>
           <tr>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              Last Updated
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-200">
+              Timestamp
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {new Date(data.timestamp).toLocaleString()}
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+              {new Date(flightData.timestamp).toLocaleString()}
             </td>
           </tr>
         </tbody>

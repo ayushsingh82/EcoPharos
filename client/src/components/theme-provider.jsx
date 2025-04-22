@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext({
-  theme: 'light',
+  theme: 'dark',
   setTheme: () => null,
 });
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
     const root = window.document.documentElement;
