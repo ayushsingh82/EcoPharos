@@ -1,16 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/layout';
+import Dashboard from './components/page';
+import ElectricityOraclePage from './components/electricity-oracle/page';
+import FlightOraclePage from './components/flight-oracle/page';
+import VehicleOraclePage from './components/vehicle-oracle/page';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-     <h1 className='text-3xl font-bold underline'>Hello World</h1>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<Layout><Dashboard /></Layout>} />
+      <Route path="/electricity" element={<Layout><ElectricityOraclePage /></Layout>} />
+      <Route path="/flight" element={<Layout><FlightOraclePage /></Layout>} />
+      <Route path="/vehicle" element={<Layout><VehicleOraclePage /></Layout>} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
