@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
         <aside className="fixed inset-y-0 left-0 z-10 w-64 border-r bg-card px-4 py-6">
           <div className="flex items-center gap-2 font-semibold">
             <Leaf className="h-6 w-6 text-green-500" />
-            <span className="text-lg">Carbon Oracle</span>
+            <span className="text-lg">MONAD Oracle</span>
           </div>
           <nav className="mt-8 space-y-1.5">
             <Link
@@ -46,21 +46,21 @@ const Layout = ({ children }) => {
                 Analytics
               </h3>
               <Link
-                to="/analytics"
+                to="/"
                 className="flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
               >
                 <BarChart3 className="mr-2 h-4 w-4" />
                 Reports
               </Link>
               <Link
-                to="/settings"
+                to="/"
                 className="flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
               >
                 <Settings className="mr-2 h-4 w-4" />
                 Settings
               </Link>
               <Link
-                to="/help"
+                to="/"
                 className="flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
               >
                 <HelpCircle className="mr-2 h-4 w-4" />

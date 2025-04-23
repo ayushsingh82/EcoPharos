@@ -8,6 +8,23 @@ import FlightDataTable from "./flight-data-table";
 
 export default function FlightOraclePage() {
   const [flightData, setFlightData] = useState({
+    totalFlights: 12,
+    totalEmissions: 1077,
+    averageEmissions: 89.75,
+    timestamp: new Date().toISOString()
+  });
+
+  const [chartData, setChartData] = useState([
+    { carbonKg: 1050, timestamp: '2023-06-10T00:00:00Z' },
+    { carbonKg: 1100, timestamp: '2023-06-11T00:00:00Z' },
+    { carbonKg: 980, timestamp: '2023-06-12T00:00:00Z' },
+    { carbonKg: 1200, timestamp: '2023-06-13T00:00:00Z' },
+    { carbonKg: 1150, timestamp: '2023-06-14T00:00:00Z' },
+    { carbonKg: 1077, timestamp: '2023-06-15T00:00:00Z' },
+    { carbonKg: 1120, timestamp: '2023-06-16T00:00:00Z' }
+  ]);
+
+  const [tableData, setTableData] = useState({
     carbonKg: 1077,
     passengers: 180,
     distanceKm: 2500,
@@ -17,14 +34,10 @@ export default function FlightOraclePage() {
     timestamp: new Date().toISOString()
   });
 
-  const [historicalData, setHistoricalData] = useState([
-    { carbonKg: 1050, timestamp: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString() },
-    { carbonKg: 1100, timestamp: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString() },
-    { carbonKg: 980, timestamp: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString() },
-    { carbonKg: 1200, timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString() },
-    { carbonKg: 1150, timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString() },
-    { carbonKg: 1077, timestamp: new Date().toISOString() }
-  ]);
+  const refreshData = () => {
+    // In a real app, you would fetch data from your API
+    console.log('Refreshing flight data...');
+  };
 
   return (
     <div className="space-y-6">
@@ -38,54 +51,63 @@ export default function FlightOraclePage() {
             Track and verify carbon emissions from flights
           </p>
         </div>
-        <Button className="flex items-center gap-1">
+        <Button onClick={refreshData} size="sm" className="flex items-center gap-1">
           <RefreshCw className="h-4 w-4" />
-          Refresh Data
+          Refresh
         </Button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Carbon</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Flights
+            </CardTitle>
             <Plane className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{flightData.carbonKg} kg</div>
-            <p className="text-xs text-muted-foreground flex items-center">
-              <ArrowUpRight className="mr-1 h-4 w-4 text-green-500" />
-              +2.5% from last flight
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Per Passenger</CardTitle>
-            <Plane className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{Math.round(flightData.carbonKg / flightData.passengers)} kg</div>
-            <p className="text-xs text-muted-foreground flex items-center">
-              <ArrowDownRight className="mr-1 h-4 w-4 text-red-500" />
-              -1.2% from average
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Distance</CardTitle>
-            <Plane className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{Math.round(flightData.distanceKm)} km</div>
+            <div className="text-2xl font-bold">{flightData.totalFlights}</div>
             <p className="text-xs text-muted-foreground">
-              {flightData.legs.map(leg => `${leg.departureAirport} → ${leg.destinationAirport}`).join(', ')}
+              <ArrowUpRight className="mr-1 h-3 w-3 inline" />
+              +2 from last month
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Last Updated</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Emissions
+            </CardTitle>
+            <Plane className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{flightData.totalEmissions} kg</div>
+            <p className="text-xs text-muted-foreground">
+              <ArrowUpRight className="mr-1 h-3 w-3 inline" />
+              +5.1% from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Average Per Flight
+            </CardTitle>
+            <Plane className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{flightData.averageEmissions} kg</div>
+            <p className="text-xs text-muted-foreground">
+              <ArrowDownRight className="mr-1 h-3 w-3 inline" />
+              -1.2% from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Last Updated
+            </CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -97,34 +119,36 @@ export default function FlightOraclePage() {
         </Card>
       </div>
 
-      <Tabs defaultValue="overview">
+      <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="data">Flight Data</TabsTrigger>
+          <TabsTrigger value="data">Data</TabsTrigger>
         </TabsList>
         <TabsContent value="overview" className="space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>Flight Carbon Emissions</CardTitle>
               <CardDescription>
-                Carbon emissions over the last 7 days
+                Daily carbon emissions from flights
               </CardDescription>
             </CardHeader>
-            <CardContent className="pl-2">
-              <FlightEmissionChart data={historicalData} />
+            <CardContent>
+              <div className="h-[300px] w-full">
+                <FlightEmissionChart data={chartData} />
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="data">
+        <TabsContent value="data" className="space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>Flight Details</CardTitle>
               <CardDescription>
-                Detailed information about the flight carbon calculation
+                Detailed information about flight carbon emissions
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <FlightDataTable data={flightData} />
+              <FlightDataTable data={tableData} />
             </CardContent>
           </Card>
         </TabsContent>

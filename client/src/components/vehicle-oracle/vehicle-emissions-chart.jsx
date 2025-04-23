@@ -28,6 +28,8 @@ const VehicleEmissionsChart = () => {
     return chartHeight - (value / maxValue * chartHeight);
   };
 
+  console.log("Rendering VehicleEmissionsChart"); // Debug log
+
   return (
     <div className="w-full overflow-hidden">
       <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet">
@@ -49,6 +51,8 @@ const VehicleEmissionsChart = () => {
                 width={barWidth}
                 height={chartHeight - scaleY(d.electric)}
                 fill="#10b981"
+                rx="2"
+                ry="2"
               />
               
               {/* Hybrid */}
@@ -58,6 +62,8 @@ const VehicleEmissionsChart = () => {
                 width={barWidth}
                 height={chartHeight - scaleY(d.hybrid)}
                 fill="#3b82f6"
+                rx="2"
+                ry="2"
               />
               
               {/* Gasoline */}
@@ -67,6 +73,8 @@ const VehicleEmissionsChart = () => {
                 width={barWidth}
                 height={chartHeight - scaleY(d.gasoline)}
                 fill="#f97316"
+                rx="2"
+                ry="2"
               />
             </g>
           );
