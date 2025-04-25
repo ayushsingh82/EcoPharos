@@ -32,9 +32,79 @@ export default function ElectricityOraclePage() {
     timestamp: new Date().toISOString()
   });
 
+  // Sample data for the electricity emissions chart
+  const electricityEmissionsData = [
+    { month: 'Jan', coal: 520, natural_gas: 380, nuclear: 120, renewable: 210 },
+    { month: 'Feb', coal: 490, natural_gas: 360, nuclear: 125, renewable: 230 },
+    { month: 'Mar', coal: 510, natural_gas: 390, nuclear: 130, renewable: 250 },
+    { month: 'Apr', coal: 480, natural_gas: 370, nuclear: 135, renewable: 280 },
+    { month: 'May', coal: 460, natural_gas: 350, nuclear: 140, renewable: 310 },
+    { month: 'Jun', coal: 430, natural_gas: 340, nuclear: 145, renewable: 350 },
+  ];
+
   const refreshData = () => {
     // In a real app, you would fetch data from your API
     console.log('Refreshing electricity data...');
+  };
+
+  // Custom chart component for electricity emissions
+  const SimpleElectricityEmissionsChart = () => {
+    const maxValue = Math.max(
+      ...electricityEmissionsData.flatMap(d => [d.coal, d.natural_gas, d.nuclear, d.renewable])
+    );
+    
+    return (
+      <div className="w-full h-full">
+        <div className="flex items-end h-[250px] gap-4 pt-6 pb-2">
+          {electricityEmissionsData.map((data, index) => (
+            <div key={index} className="flex-1 flex flex-col items-center gap-1">
+              <div className="w-full flex justify-between items-end h-[200px]">
+                <div 
+                  className="w-[15%] bg-gray-700 rounded-t-sm" 
+                  style={{ height: `${(data.coal / maxValue) * 100}%` }}
+                  title={`Coal: ${data.coal}kg`}
+                />
+                <div 
+                  className="w-[15%] bg-yellow-500 rounded-t-sm" 
+                  style={{ height: `${(data.natural_gas / maxValue) * 100}%` }}
+                  title={`Natural Gas: ${data.natural_gas}kg`}
+                />
+                <div 
+                  className="w-[15%] bg-cyan-500 rounded-t-sm" 
+                  style={{ height: `${(data.nuclear / maxValue) * 100}%` }}
+                  title={`Nuclear: ${data.nuclear}kg`}
+                />
+                <div 
+                  className="w-[15%] bg-green-500 rounded-t-sm" 
+                  style={{ height: `${(data.renewable / maxValue) * 100}%` }}
+                  title={`Renewable: ${data.renewable}kg`}
+                />
+              </div>
+              <span className="text-xs text-muted-foreground">{data.month}</span>
+            </div>
+          ))}
+        </div>
+        
+        <div className="flex justify-center mt-4 gap-4">
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-gray-700 rounded-sm mr-1"></div>
+            <span className="text-xs">Coal</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-yellow-500 rounded-sm mr-1"></div>
+            <span className="text-xs">Natural Gas</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-cyan-500 rounded-sm mr-1"></div>
+            <span className="text-xs">Nuclear</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-green-500 rounded-sm mr-1"></div>
+            <span className="text-xs">Renewable</span>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -117,6 +187,19 @@ export default function ElectricityOraclePage() {
         </Card>
       </div>
 
+      {/* Chart card below the data boxes */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Monthly Electricity Emissions</CardTitle>
+          <CardDescription>
+            Carbon emissions by energy source over the last 6 months
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SimpleElectricityEmissionsChart />
+        </CardContent>
+      </Card>
+
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -151,6 +234,107 @@ export default function ElectricityOraclePage() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Additional content below tabs */}
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Energy Source Distribution</CardTitle>
+            <CardDescription>
+              Breakdown of electricity generation by source
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-green-500 rounded-sm mr-2"></div>
+                  <span>Renewable Energy</span>
+                </div>
+                <div className="font-medium">32%</div>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="bg-green-500 h-2.5 rounded-full" style={{ width: '32%' }}></div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-cyan-500 rounded-sm mr-2"></div>
+                  <span>Nuclear</span>
+                </div>
+                <div className="font-medium">18%</div>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="bg-cyan-500 h-2.5 rounded-full" style={{ width: '18%' }}></div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-yellow-500 rounded-sm mr-2"></div>
+                  <span>Natural Gas</span>
+                </div>
+                <div className="font-medium">28%</div>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="bg-yellow-500 h-2.5 rounded-full" style={{ width: '28%' }}></div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-gray-700 rounded-sm mr-2"></div>
+                  <span>Coal</span>
+                </div>
+                <div className="font-medium">22%</div>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="bg-gray-700 h-2.5 rounded-full" style={{ width: '22%' }}></div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Carbon Reduction Opportunities</CardTitle>
+            <CardDescription>
+              Potential ways to reduce electricity carbon footprint
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-start gap-4">
+                <div className="bg-green-100 p-2 rounded-full">
+                  <Leaf className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold">Switch to Renewable Sources</h4>
+                  <p className="text-sm text-muted-foreground">Increasing renewable energy usage by 20% could reduce emissions by 850kg per month.</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4">
+                <div className="bg-blue-100 p-2 rounded-full">
+                  <Leaf className="h-5 w-5 text-blue-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold">Energy Efficiency Improvements</h4>
+                  <p className="text-sm text-muted-foreground">Implementing energy-efficient systems could reduce consumption by 15% (6.8 MWh).</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4">
+                <div className="bg-purple-100 p-2 rounded-full">
+                  <Leaf className="h-5 w-5 text-purple-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold">Time-of-Use Optimization</h4>
+                  <p className="text-sm text-muted-foreground">Shifting consumption to low-carbon intensity hours could reduce emissions by 12%.</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 } 
