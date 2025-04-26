@@ -1,65 +1,108 @@
-# Electricity Carbon Oracle for Pharos Network
+# EcoPharos
 
-This project implements a real-world asset (RWA) oracle for electricity carbon emissions data on the Pharos Network blockchain.
+**EcoPharos** is a blockchain-powered carbon emissions tracking and verification platform built on the Pharos Network. It provides transparent, immutable records of carbon emissions across various sectors, helping organizations monitor, report, and reduce their carbon footprint.
+
+---
 
 ## Overview
 
-The oracle fetches electricity carbon emissions data from the Carbon Interface API and stores it on-chain, making it available for other smart contracts to use. This data can be valuable for:
+EcoPharos leverages blockchain technology to create a trustworthy system for carbon emissions data. By recording emissions data on the blockchain, it ensures that environmental reporting is transparent, tamper-proof, and verifiable.
 
-- Carbon offset tokenization
-- ESG-compliant DeFi applications
-- Climate-aware smart contracts
-- Energy trading platforms
+---
 
-## Components
+## Features
 
-1. **Smart Contract**: Stores and aggregates electricity carbon data from authorized providers
-2. **Oracle Service**: Fetches data from Carbon Interface API and pushes it to the blockchain
-3. **API Server**: Provides health checks and manual trigger endpoints
+### Multi-Sector Emissions Tracking
 
-## Setup Instructions
+- **Vehicle Emissions Oracle**
+  - Track and verify carbon emissions from vehicles
+  - Monitor total vehicles, emissions, and average emissions per vehicle
+  - Visualize emissions by vehicle type (sedan, SUV, truck, electric)
+  - Analyze vehicle type distribution and emission trends
+  - Identify emission reduction opportunities (EV transition, route optimization)
 
-### Prerequisites
+- **Flight Emissions Oracle**
+  - Track and verify carbon emissions from flights
+  - Monitor total flights, emissions, and average emissions per flight
+  - Visualize emissions by flight type (domestic, short haul, long haul, cargo)
+  - Analyze emissions by aircraft type, airline, and route
+  - Compare fuel efficiency trends across aircraft generations
+  - Identify emission reduction strategies (sustainable aviation fuel, flight optimization)
 
-- Node.js (v14+)
-- npm or yarn
-- Pharos Network account with testnet tokens
-- Carbon Interface API key
+- **Electricity Emissions Oracle**
+  - Track and verify carbon emissions from electricity consumption
+  - Monitor total consumption, emissions, and carbon intensity
+  - Visualize emissions by energy source (coal, natural gas, nuclear, renewable)
+  - Analyze energy source distribution
+  - Identify carbon reduction opportunities (renewable sources, efficiency improvements)
 
-### Installation
+---
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/electricity-carbon-oracle.git
-   cd electricity-carbon-oracle
-   ```
+### Data Visualization
 
-2. Install dependencies:
-   ```
-   npm install
-   ```
+- Interactive charts showing emissions trends over time
+- Breakdown of emissions by category and source
+- Progress bars showing relative contributions and efficiency metrics
+- Comparative analysis tools for benchmarking performance
 
-3. Create a `.env` file based on `.env.example` and fill in your details:
-   ```
-   cp .env.example .env
-   ```
+---
 
-### Deployment
+### Carbon Reduction Insights
 
-1. Deploy the smart contract:
-   ```
-   npm run deploy
-   ```
+- Actionable recommendations for reducing carbon footprint
+- Quantified potential impact of different reduction strategies
+- Efficiency comparisons across different technologies and approaches
+- Historical trend analysis to track progress
 
-2. Update your `.env` file with the deployed contract address.
+---
 
-3. Start the oracle service:
-   ```
-   npm start
-   ```
+### Blockchain Integration
 
-### Usage
+- Immutable record of emissions data on the Pharos blockchain
+- Transparent verification of environmental claims
+- Tamper-proof audit trail for regulatory compliance
+- Smart contract automation for carbon reporting
 
-The oracle service will automatically fetch and update electricity carbon data every hour. You can also trigger an update manually:
+---
 
-curl -X POST http://localhost:3000/trigger 
+### User Interface
+
+- Modern, responsive dashboard design
+- Intuitive navigation between different emission sectors
+- Real-time data updates and notifications
+- Detailed data tables for in-depth analysis
+
+---
+
+## Technology Stack
+
+- **Frontend**: React.js with Tailwind CSS for responsive UI
+- **Blockchain**: Pharos blockchain for immutable data storage
+- **Smart Contracts**: For automated verification and reporting
+- **Data Visualization**: Custom chart components for emissions analysis
+
+---
+
+## Use Cases
+
+- **Corporate Sustainability**: Track and report emissions for ESG compliance
+- **Carbon Markets**: Verify carbon credits and offsets
+- **Regulatory Compliance**: Meet emissions reporting requirements
+- **Supply Chain Management**: Monitor emissions across the supply chain
+- **Consumer Transparency**: Provide verified emissions data to consumers
+
+---
+
+## Future Roadmap
+
+- Integration with IoT devices for automated data collection
+- AI-powered predictions and recommendations
+- Carbon offset marketplace
+- Mobile application for on-the-go emissions monitoring
+- API for third-party integrations
+
+---
+
+## About
+
+EcoPharos represents a significant step forward in bringing transparency and accountability to carbon emissions reporting through blockchain technology on the Pharos platform.

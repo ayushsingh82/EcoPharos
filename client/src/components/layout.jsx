@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
         <aside className="fixed inset-y-0 left-0 z-10 w-64 border-r bg-card px-4 py-6">
           <div className="flex items-center gap-2 font-semibold">
             <Leaf className="h-6 w-6 text-green-500" />
-            <span className="text-lg">MONAD Oracle</span>
+            <span className="text-lg">EcoPharos</span>
           </div>
           <nav className="mt-8 space-y-1.5">
             <Link
