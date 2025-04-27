@@ -10,6 +10,12 @@ EcoPharos leverages blockchain technology to create a trustworthy system for car
 
 ---
 
+Carbon Oracle - https://pharosscan.xyz/tx/0xbac8641c5bce058a79d2f33e8ab9e804f4eedf3e7b928c7c9ffb19b45b9810c3
+
+Flight Carbon Oracle -  https://pharosscan.xyz/tx/0x33bfecdf0814044dd0100ab9665a10de6bb415bf33c510d1764479a1a5d09a44
+
+Electricity Carbon Oracle - https://pharosscan.xyz/tx/0x1374f3cbce19481f13f3962a7c9eb870b401f5d52e7a25cbfd834e783ffae4d1
+
 ## Features
 
 ### Multi-Sector Emissions Tracking
